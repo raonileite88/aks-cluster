@@ -44,6 +44,9 @@ jobs:
         id: plan
         run: terraform plan -no-color -out=tfplan
         continue-on-error: true
+        env:
+          # Passando a subscription explicitamente para o Terraform
+          ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
       - name: Post Plan to PR
         if: github.event_name == 'pull_request'
@@ -91,7 +94,6 @@ jobs:
       - name: Azure Login
         uses: azure/login@v2
         with:
-          # CORREÇÃO: Usando um único segredo JSON.
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
       - name: Download Plan Artifact
@@ -109,3 +111,5 @@ jobs:
 
       - name: Terraform Apply
         run: terraform apply -auto-approve tfplan
+        env:
+          ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
