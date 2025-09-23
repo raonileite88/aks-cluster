@@ -1,12 +1,13 @@
 name: 'Terraform CI/CD for AKS'
 
 on:
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
+#  push:
+#    branches:
+#      - main
+#  pull_request:
+#    branches:
+#      - main
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -112,5 +113,3 @@ jobs:
         run: terraform apply -auto-approve tfplan
         env:
           ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-
-# teste
