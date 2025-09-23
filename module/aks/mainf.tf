@@ -29,6 +29,7 @@ resource "azurerm_kubernetes_cluster" "aks" {
   }
 
   ## Enable OIDC Issuer, prerequisite for AAD Workload Identity
+  workload_identity_enabled = true
   oidc_issuer_enabled = true
 }
 
@@ -61,9 +62,10 @@ resource "azuread_application_federated_identity_credential" "fic" {
 
 ## 4. Permission assignment (Role Assignment)
 resource "azurerm_role_assignment" "sp_role_assignment" {
-  scope                = "/subscriptions/${data.azurerm_client_config.current.subscription_id}/resourceGroups/${var.resource_group_name}"
+  scope                = "/subscriptions/${data.azurerm_client_config.current.subscription_id}"
   role_definition_name = "Storage Blob Data Reader"
   principal_id         = azuread_service_principal.workload_identity_sp.object_id
 }
+
 
 data "azurerm_client_config" "current" {}
