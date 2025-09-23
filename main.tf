@@ -41,3 +41,31 @@ module "my_aks_cluster" {
   workload_identity_sa_name      = "my-pod-storage-reader"
   workload_identity_sa_namespace = "production"
 }
+
+resource "random_string" "storage_suffix" {
+  length  = 5
+  special = false
+  upper   = false
+}
+
+resource "azurerm_storage_account" "demo" {
+  name                     = "testaksidentity${random_string.storage_suffix.result}"
+  resource_group_name      = azurerm_resource_group.rg.name
+  location                 = azurerm_resource_group.rg.location
+  account_tier             = "Standard"
+  account_replication_type = "LRS"
+}
+
+resource "azurerm_storage_container" "demo_container" {
+  name                  = "demo-data"
+  storage_account_id  = azurerm_storage_account.demo.id
+  container_access_type = "private"
+}
+
+resource "azurerm_storage_blob" "demo_blob" {
+  name                   = "test-file.txt"
+  storage_account_name   = azurerm_storage_account.demo.name
+  storage_container_name = azurerm_storage_container.demo_container.name
+  type                   = "Block"
+  source_content         = "AAD Workload Identity test successful!"
+}
