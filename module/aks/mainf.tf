@@ -34,15 +34,6 @@ resource "azurerm_kubernetes_cluster" "aks" {
 
 }
 
-resource "azurerm_kubernetes_cluster_addon_profile" "agic" {
-  kubernetes_cluster_id = azurerm_kubernetes_cluster.aks.id
-  ingress_application_gateway {
-    enabled    = true
-    gateway_id = azurerm_application_gateway.appgw.id
-  }
-}
-
-
 ## --- Azure AD Workload Identity Configuration ---
 
 ## 1. Create an Application in Azure AD
