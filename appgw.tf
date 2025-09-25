@@ -66,6 +66,7 @@ resource "azurerm_application_gateway" "appgw" {
     backend_address_pool_name  = "default-backend-pool"
     backend_http_settings_name = "default-http-settings"
   }
+}
 
 resource "azurerm_kubernetes_cluster_addon_profile" "agic" {
   kubernetes_cluster_id = azurerm_kubernetes_cluster.aks.id
@@ -74,5 +75,4 @@ resource "azurerm_kubernetes_cluster_addon_profile" "agic" {
     enabled    = true
     gateway_id = azurerm_application_gateway.appgw.id
   }
-}
 }
