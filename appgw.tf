@@ -68,11 +68,3 @@ resource "azurerm_application_gateway" "appgw" {
   }
 }
 
-resource "azurerm_kubernetes_cluster_addon_profile" "agic" {
-  kubernetes_cluster_id = azurerm_kubernetes_cluster.aks.id
-
-  ingress_application_gateway {
-    enabled    = true
-    gateway_id = azurerm_application_gateway.appgw.id
-  }
-}

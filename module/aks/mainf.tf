@@ -31,6 +31,15 @@ resource "azurerm_kubernetes_cluster" "aks" {
   ## Enable OIDC Issuer, prerequisite for AAD Workload Identity
   workload_identity_enabled = true
   oidc_issuer_enabled = true
+
+}
+
+resource "azurerm_kubernetes_cluster_addon_profile" "agic" {
+  kubernetes_cluster_id = azurerm_kubernetes_cluster.aks.id
+  ingress_application_gateway {
+    enabled    = true
+    gateway_id = azurerm_application_gateway.appgw.id
+  }
 }
 
 
