@@ -18,3 +18,11 @@ output "workload_identity_client_id" {
   description = "The Client ID of the AAD Application to be used in the ServiceAccount annotation."
   value       = azuread_application.workload_identity_app.client_id
 }
+
+output "aks_name" {
+  value = azurerm_kubernetes_cluster.aks.name
+}
+
+output "aks_rg" {
+  value = azurerm_kubernetes_cluster.aks.resource_group_name
+}
