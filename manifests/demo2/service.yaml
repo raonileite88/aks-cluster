@@ -7,6 +7,6 @@ spec:
   selector:
     app: demo2-web
   ports:
-    - port: 80
+    - port: 5678
       targetPort: 5678
       protocol: TCP
