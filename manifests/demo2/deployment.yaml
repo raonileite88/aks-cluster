@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: demo2-web
+  labels:
+    app: demo2-web
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: demo2-web
+  template:
+    metadata:
+      labels:
+        app: demo2-web
+    spec:
+      containers:
+      - name: demo2-web
+        image: hashicorp/http-echo:0.2.3
+        args:
+          - "-text=Hello from demo2!"
+        ports:
+        - containerPort: 5678
